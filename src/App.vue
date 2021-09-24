@@ -1,27 +1,47 @@
 <template>
   <v-app>
     <v-navigation-drawer
-      v-model="drawer"
       color="secondary"
+      permanent
+      expand-on-hover
       app
     >
-      <!--  -->
+      <v-list nav dense>
+        <v-list-item link>
+          <v-list-item-icon>
+            <v-icon color="primary">mdi-inbox</v-icon>
+          </v-list-item-icon>
+          <v-list-item-title class="grey--text text--lighten-5">Inbox</v-list-item-title>
+        </v-list-item>
+        <v-list-item link>
+          <v-list-item-icon>
+            <v-icon color="primary">mdi-format-list-bulleted</v-icon>
+          </v-list-item-icon>
+          <v-list-item-title class="grey--text text--lighten-5">My lists</v-list-item-title>
+        </v-list-item>
+        <v-list-item link>
+          <v-list-item-icon>
+            <v-icon color="primary">mdi-cog</v-icon>
+          </v-list-item-icon>
+          <v-list-item-title class="grey--text text--lighten-5">Settings</v-list-item-title>
+        </v-list-item>
+      </v-list>
     </v-navigation-drawer>
 
     <v-app-bar color="primary" app>
-      <v-app-bar-nav-icon color="accent" @click="drawer = !drawer"></v-app-bar-nav-icon>
-
-      <v-toolbar-title>Application</v-toolbar-title>
+      <v-toolbar-title class="grey--text text--lighten-5">To-do App</v-toolbar-title>
     </v-app-bar>
 
-    <v-main>
+    <v-main color="primary">
       <!--  -->
     </v-main>
   </v-app>
 </template>
 
 <script>
-  export default {
-    data: () => ({ drawer: null }),
-  }
+export default {};
 </script>
+
+<style lang="scss">
+
+</style>
