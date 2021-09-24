@@ -32,8 +32,8 @@
       <v-toolbar-title class="grey--text text--lighten-5">To-do App</v-toolbar-title>
     </v-app-bar>
 
-    <v-main color="primary">
-      <!--  -->
+    <v-main class="grey lighten-4">
+      
     </v-main>
   </v-app>
 </template>
