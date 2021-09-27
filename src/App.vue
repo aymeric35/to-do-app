@@ -35,32 +35,8 @@
       >
     </v-app-bar>
 
-    <v-main class="grey lighten-4">
-      <v-container class="d-flex justify-end">
-        <v-btn elevation="2" color="primary" fab
-          ><v-icon>mdi-plus</v-icon></v-btn
-        >
-      </v-container>
-      <v-container>
-        <v-simple-table>
-          <template v-slot:default>
-            <thead>
-              <tr>
-                <th class="text-left">Completed</th>
-                <th class="text-left">Task</th>
-                <th class="text-left">Description</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for="item in desserts" :key="item.name">
-                <td>{{ item.completed }}</td>
-                <td>{{ item.name }}</td>
-                <td>{{ item.description }}</td>
-              </tr>
-            </tbody>
-          </template></v-simple-table
-        >
-      </v-container>
+    <v-main class="grey darken-4">
+      <router-view></router-view>
     </v-main>
   </v-app>
 </template>
@@ -69,25 +45,30 @@
 export default {
   data() {
     return {
+      dialog: false,
+      date: new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
+        .toISOString()
+        .substr(0, 10),
+      menu: false,
       desserts: [
         {
           completed: false,
           name: "Go smite pd",
-          description: "Jouer à Smite (ps: je déconne, jeune de merde)"
+          description: "Jouer à Smite (ps: je déconne, jeune de merde)",
         },
         {
           completed: false,
           name: "jouer à Tales of Arise le bge",
-          description: "nofake"
+          description: "nofake",
         },
         {
           completed: false,
           name: "Racheter CIG et sortir Star Citizen",
-          description: "Trouver 2 milliards avant"
-        }
-      ]
-    }
-  }
+          description: "Trouver 2 milliards avant",
+        },
+      ],
+    };
+  },
 };
 </script>
 
