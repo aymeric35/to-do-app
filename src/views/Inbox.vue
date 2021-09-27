@@ -109,3 +109,34 @@
     </v-container>
   </div>
 </template>
+
+<script>
+export default {
+  data() {
+    return {
+      dialog: false,
+      date: new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
+        .toISOString()
+        .substr(0, 10),
+      menu: false,
+      desserts: [
+        {
+          completed: false,
+          name: "Go smite pd",
+          description: "Jouer à Smite (ps: je déconne, jeune de merde)",
+        },
+        {
+          completed: false,
+          name: "jouer à Tales of Arise le bge",
+          description: "nofake",
+        },
+        {
+          completed: false,
+          name: "Racheter CIG et sortir Star Citizen",
+          description: "Trouver 2 milliards avant",
+        },
+      ],
+    };
+  },
+};
+</script>
