@@ -96,19 +96,13 @@
             </v-card-text>
             <v-card-actions>
               <v-spacer></v-spacer>
-              <v-btn
-                color="blue darken-1"
-                text
-                @click="[closeDialog(), reset()]"
-              >
-                Close
-              </v-btn>
+              <v-btn color="blue darken-1" text @click="reset()"> Close </v-btn>
               <v-btn
                 :disabled="!valid"
                 color="blue darken-1"
                 type="submit"
                 text
-                @click="[validate()]"
+                @click="validate()"
               >
                 Save
               </v-btn>
@@ -117,7 +111,7 @@
         </v-dialog>
       </v-row>
     </v-container>
-    <v-container>
+    <v-container v-if="tasks.length > 0">
       <v-simple-table>
         <template v-slot:default>
           <thead>
@@ -126,28 +120,35 @@
               <th class="text-left">Task</th>
               <th class="text-left">Description</th>
               <th class="text-left">Priority</th>
+              <th class="text-left">Due Date</th>
             </tr>
           </thead>
           <tbody>
-            <tr v-for="item in desserts" :key="item.name">
+            <tr v-for="(item, index) in tasks" :key="item.uuid">
               <td>
                 <v-checkbox
                   v-model="item.completed"
-                  :label="`Checkbox 1: ${item.completed.toString()}`"
+                  @click="checkTaskCompletion(item, index)"
                 ></v-checkbox>
               </td>
               <td>{{ item.name }}</td>
               <td>{{ item.description }}</td>
               <td>{{ item.priority }}</td>
+              <td>{{ item.date }}</td>
             </tr>
           </tbody>
         </template>
       </v-simple-table>
     </v-container>
+    <v-container class="text-center grey--text text--lighten-5 text-h4" v-else
+      >You completed all of you tasks or you didn't add a task yet.</v-container
+    >
   </div>
 </template>
 
 <script>
+import { v4 as uuidv4 } from "uuid";
+
 export default {
   data() {
     return {
@@ -179,26 +180,7 @@ export default {
             "Description must be less than 200 characters",
         ],
       },
-      desserts: [
-        {
-          completed: true,
-          name: "Go smite pd",
-          description: "Jouer à Smite (ps: je déconne, jeune de merde)",
-          priority: 1,
-        },
-        {
-          completed: true,
-          name: "jouer à Tales of Arise le bge",
-          description: "nofake",
-          priority: 1,
-        },
-        {
-          completed: false,
-          name: "Racheter CIG et sortir Star Citizen",
-          description: "Trouver 2 milliards avant",
-          priority: 1,
-        },
-      ],
+      tasks: [],
     };
   },
   methods: {
@@ -207,11 +189,32 @@ export default {
     },
     validate() {
       if (this.$refs.form.validate()) {
-        this.closeDialog();
+        this.addEntry();
+        this.reset();
       }
     },
+    addEntry() {
+      const entry = {
+        uuid: uuidv4(),
+        completed: false,
+        name: this.name,
+        description: this.description,
+        priority: this.priority,
+        date: this.date,
+      };
+      this.tasks.unshift(entry);
+    },
     reset() {
-      this.$refs.form.reset();
+      this.closeDialog();
+      this.$refs.form.resetValidation();
+      this.priority = 1;
+      this.name = "";
+      this.description = "";
+    },
+    checkTaskCompletion(item, index) {
+      if (item.completed === true) {
+        this.tasks.splice(index, 1);
+      }
     },
   },
 };
