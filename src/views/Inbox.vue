@@ -71,7 +71,7 @@
                         <v-date-picker
                           v-model="date"
                           color="primary"
-                          :min="new Date((Date.now())).toISOString()"
+                          :min="new Date(Date.now()).toISOString()"
                           no-title
                           scrollable
                         >
@@ -125,13 +125,20 @@
               <th class="text-left">Completed</th>
               <th class="text-left">Task</th>
               <th class="text-left">Description</th>
+              <th class="text-left">Priority</th>
             </tr>
           </thead>
           <tbody>
             <tr v-for="item in desserts" :key="item.name">
-              <td>{{ item.completed }}</td>
+              <td>
+                <v-checkbox
+                  v-model="item.completed"
+                  :label="`Checkbox 1: ${item.completed.toString()}`"
+                ></v-checkbox>
+              </td>
               <td>{{ item.name }}</td>
               <td>{{ item.description }}</td>
+              <td>{{ item.priority }}</td>
             </tr>
           </tbody>
         </template>
@@ -174,19 +181,22 @@ export default {
       },
       desserts: [
         {
-          completed: false,
+          completed: true,
           name: "Go smite pd",
           description: "Jouer à Smite (ps: je déconne, jeune de merde)",
+          priority: 1,
         },
         {
-          completed: false,
+          completed: true,
           name: "jouer à Tales of Arise le bge",
           description: "nofake",
+          priority: 1,
         },
         {
           completed: false,
           name: "Racheter CIG et sortir Star Citizen",
           description: "Trouver 2 milliards avant",
+          priority: 1,
         },
       ],
     };
