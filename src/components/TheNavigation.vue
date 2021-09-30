@@ -16,7 +16,7 @@
             >My lists</v-list-item-title
           >
         </template>
-        <v-dialog v-model="dialog" max-width="400">
+        <v-dialog v-model="dialog" max-width="400" persistent>
           <template v-slot:activator="{ on, attrs }">
             <v-list-item v-bind="attrs" v-on="on">
               <v-list-item-icon>
@@ -32,7 +32,6 @@
             <v-card-title class="primary text-h5">
               Add a new list
             </v-card-title>
-
             <v-container>
               <v-form ref="form" v-model="valid" lazy-validation>
                 <v-row>
@@ -47,11 +46,10 @@
                 ></v-row>
               </v-form>
             </v-container>
-
             <v-divider></v-divider>
-
             <v-card-actions>
               <v-spacer></v-spacer>
+              <v-btn color="blue darken-1" text @click="reset()"> Close </v-btn>
               <v-btn
                 :disabled="!valid"
                 color="blue darken-1"
@@ -65,14 +63,15 @@
           </v-card>
         </v-dialog>
 
-        <v-list-item to="/list" link>
+        <v-list-item v-for="(list, i) in lists" :key="i" :to="list" link>
           <v-list-item-icon>
             <v-icon color="primary">mdi-check-underline-circle</v-icon>
           </v-list-item-icon>
           <v-list-item-title class="grey--text text--lighten-5"
-            >List</v-list-item-title
+            >{{list}}</v-list-item-title
           >
         </v-list-item>
+
       </v-list-group>
       <TheNavigationPage
         to="/settings"
@@ -91,7 +90,7 @@ export default {
     TheNavigationPage,
   },
   data: () => ({
-    lists: ["Management", "Settings"],
+    lists: [],
     name: "",
     dialog: false,
     valid: true,
@@ -106,8 +105,13 @@ export default {
     closeDialog() {
       this.dialog = false;
     },
+    addEntry() {
+      const entry = this.name;
+      this.lists.unshift(entry);
+    },
     validate() {
       if (this.$refs.form.validate()) {
+        this.addEntry();
         this.reset();
       }
     },
