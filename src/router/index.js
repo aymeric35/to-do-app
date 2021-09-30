@@ -11,7 +11,7 @@ const routes = [
     component: Inbox
   },
   {
-    path: '/list/:list',
+    path: '/:list',
     name: 'List',
     component: () => import('../views/List.vue')
   },
