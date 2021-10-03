@@ -33,7 +33,7 @@
               Add a new list
             </v-card-title>
             <v-container>
-              <v-form ref="form" v-model="valid" lazy-validation>
+              <v-form ref="form" v-model="valid" @submit.prevent lazy-validation>
                 <v-row>
                   <v-col cols="12">
                     <v-text-field
@@ -107,7 +107,7 @@ export default {
     },
     addEntry() {
       const entry = this.name;
-      this.lists.unshift(entry);
+      this.lists.push(entry);
     },
     validate() {
       if (this.$refs.form.validate()) {
