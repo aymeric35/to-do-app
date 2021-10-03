@@ -9,7 +9,9 @@
     </v-app-bar>
 
     <v-main class="grey darken-4">
+      <keep-alive>
       <router-view></router-view>
+      </keep-alive>
     </v-main>
   </v-app>
 </template>
