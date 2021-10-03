@@ -141,7 +141,7 @@
       </v-simple-table>
     </v-container>
     <v-container class="text-center grey--text text--lighten-5 text-h4" v-else
-      >You completed all of you tasks or you didn't add a task yet.</v-container
+      >You have completed all of your tasks or you didn't add a task yet.</v-container
     >
   </div>
 </template>
