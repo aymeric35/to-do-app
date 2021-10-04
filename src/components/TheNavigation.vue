@@ -33,7 +33,12 @@
               Add a new list
             </v-card-title>
             <v-container>
-              <v-form ref="form" v-model="valid" @submit.prevent lazy-validation>
+              <v-form
+                ref="form"
+                v-model="valid"
+                @submit.prevent
+                lazy-validation
+              >
                 <v-row>
                   <v-col cols="12">
                     <v-text-field
@@ -63,15 +68,17 @@
           </v-card>
         </v-dialog>
 
-        <v-list-item v-for="(list, i) in lists" :key="i" :to="list" link>
+        <v-list-item v-for="(list, i) in lists" :key="i" @click="checkExistingPath()" :to="'/lists/' + list" link>
           <v-list-item-icon>
             <v-icon color="primary">mdi-check-underline-circle</v-icon>
           </v-list-item-icon>
-          <v-list-item-title class="grey--text text--lighten-5"
-            >{{list}}</v-list-item-title
-          >
+          <v-list-item-title class="grey--text text--lighten-5">{{
+            list
+          }}</v-list-item-title>
+          <v-list-item-icon>
+            <v-icon @click="deleteEntry(i)" color="primary">mdi-trash-can-outline</v-icon>
+          </v-list-item-icon>
         </v-list-item>
-
       </v-list-group>
       <TheNavigationPage
         to="/settings"
@@ -84,6 +91,7 @@
 
 <script>
 import TheNavigationPage from "../components/TheNavigationPage";
+import { EventBus } from "../event-bus";
 
 export default {
   components: {
@@ -97,7 +105,8 @@ export default {
     rule: {
       name: [
         (v) => !!v || "List name is required",
-        (v) => (v && v.length <= 30) || "Name must be less than 30 characters",
+        (v) =>
+          (v && v.length <= 30) || "List name must be less than 30 characters",
       ],
     },
   }),
@@ -108,6 +117,10 @@ export default {
     addEntry() {
       const entry = this.name;
       this.lists.push(entry);
+    },
+    deleteEntry(i) {
+      this.lists.splice(i, 1)
+      console.log(this.lists);
     },
     validate() {
       if (this.$refs.form.validate()) {
@@ -120,6 +133,9 @@ export default {
       this.$refs.form.resetValidation();
       this.name = "";
     },
+    checkExistingPath() {
+      EventBus.$emit("getArrayList", this.lists);
+    }
   },
 };
 </script>
