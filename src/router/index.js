@@ -11,15 +11,21 @@ const routes = [
     component: Inbox
   },
   {
-    path: '/:list',
+    path: '/lists/:list',
     name: 'List',
-    component: () => import('../views/List.vue')
+    props: true,
+    component: () => import('../views/lists/List.vue')
   },
   {
     path: '/settings',
     name: 'Settings',
     component: () => import('../views/Settings.vue')
   },
+  {
+    path: '*',
+    name: '404',
+    component: () => import('../views/404.vue')
+  }
 ]
 
 const router = new VueRouter({
