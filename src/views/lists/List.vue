@@ -205,7 +205,6 @@ export default {
       if (foundList.length > 0) {
         this.list = foundList;
       } else {
-        // otherwise, go to the 404 page
         this.$router.push("/404");
       }
     });
