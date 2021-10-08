@@ -68,7 +68,7 @@
           </v-card>
         </v-dialog>
 
-        <v-list-item v-for="(list, i) in lists" :key="i" @click="checkExistingPath()" :to="'/lists/' + list" link>
+        <v-list-item v-for="(list, i) in lists" :key="i" :to="'/lists/' + list" link>
           <v-list-item-icon>
             <v-icon color="primary">mdi-check-underline-circle</v-icon>
           </v-list-item-icon>
@@ -91,14 +91,14 @@
 
 <script>
 import TheNavigationPage from "../components/TheNavigationPage";
-import { EventBus } from "../event-bus";
+import store from "@/store.js";
 
 export default {
   components: {
     TheNavigationPage,
   },
   data: () => ({
-    lists: [],
+    lists: store.lists,
     name: "",
     dialog: false,
     valid: true,
@@ -133,9 +133,6 @@ export default {
       this.$refs.form.resetValidation();
       this.name = "";
     },
-    checkExistingPath() {
-      EventBus.$emit("getArrayList", this.lists);
-    }
   },
 };
 </script>
