@@ -10,7 +10,7 @@
 
     <v-main class="grey darken-4">
       <keep-alive>
-      <router-view></router-view>
+      <router-view :key="$route.path" />
       </keep-alive>
     </v-main>
   </v-app>
