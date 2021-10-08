@@ -161,7 +161,7 @@
 
 <script>
 import { v4 as uuidv4 } from "uuid";
-import { EventBus } from "@/event-bus";
+import store from "@/store.js"
 
 export default {
   data() {
@@ -194,20 +194,8 @@ export default {
             "Description must be less than 200 characters",
         ],
       },
-      tasks: [],
+      tasks: store.tasks,
     };
-  },
-  created() {
-    EventBus.$on("getArrayList", (data) => {
-      const currentPage = this.$route.params.list;
-      const foundList = data.filter((list) => list === currentPage);
-
-      if (foundList.length > 0) {
-        this.list = foundList;
-      } else {
-        this.$router.push("/404");
-      }
-    });
   },
   computed: {
     filteredTasks() {
@@ -218,7 +206,6 @@ export default {
   methods: {
     closeDialog() {
       this.dialog = false;
-      console.log(this.tasks);
     },
     validate() {
       if (this.$refs.form.validate()) {
@@ -237,6 +224,7 @@ export default {
         date: this.date,
       };
       this.tasks.unshift(entry);
+      console.log(this.tasks);
     },
     reset() {
       this.closeDialog();
