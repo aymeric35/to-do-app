@@ -80,11 +80,6 @@
           </v-list-item-icon>
         </v-list-item>
       </v-list-group>
-      <TheNavigationPage
-        to="/settings"
-        icon="mdi-cog"
-        title="Settings"
-      ></TheNavigationPage>
     </v-list>
   </v-navigation-drawer>
 </template>
