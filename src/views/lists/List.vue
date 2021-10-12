@@ -161,7 +161,7 @@
 
 <script>
 import { v4 as uuidv4 } from "uuid";
-import store from "@/store.js"
+import store from "@/store.js";
 
 export default {
   data() {
@@ -197,6 +197,14 @@ export default {
       tasks: store.tasks,
     };
   },
+  beforeRouteUpdate: (to, from, next) => {
+    const exists = store.lists.find((list) => list === to.params.list);
+    if (exists) {
+      next();
+    } else {
+      next({ name: "404" });
+    }
+  },
   computed: {
     filteredTasks() {
       const currentPage = this.$route.params.list;
@@ -224,7 +232,6 @@ export default {
         date: this.date,
       };
       this.tasks.unshift(entry);
-      console.log(this.tasks);
     },
     reset() {
       this.closeDialog();
