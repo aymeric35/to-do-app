@@ -148,6 +148,7 @@
 
 <script>
 import { v4 as uuidv4 } from "uuid";
+import store from "@/store.js"
 
 export default {
   data() {
@@ -180,7 +181,7 @@ export default {
             "Description must be less than 200 characters",
         ],
       },
-      tasks: [],
+      tasks: store.tasks,
     };
   },
   methods: {
