@@ -76,7 +76,7 @@
             list
           }}</v-list-item-title>
           <v-list-item-icon>
-            <v-icon @click="deleteEntry(i)" color="primary">mdi-trash-can-outline</v-icon>
+            <v-icon @click="deleteEntry(list, i)" color="primary">mdi-trash-can-outline</v-icon>
           </v-list-item-icon>
         </v-list-item>
       </v-list-group>
@@ -118,9 +118,9 @@ export default {
       const entry = this.name;
       this.lists.push(entry);
     },
-    deleteEntry(i) {
-      this.lists.splice(i, 1)
-      console.log(this.lists);
+    deleteEntry(list, i) {
+      this.lists.splice(i, 1);
+      store.tasks.splice(store.tasks.findIndex(task => task.name === list),1)
     },
     validate() {
       if (this.$refs.form.validate()) {
