@@ -123,7 +123,7 @@
         </v-col>
       </v-row>
     </v-container>
-    <v-container v-if="tasks.length > 0">
+    <v-container>
       <v-simple-table>
         <template v-slot:default>
           <thead>
@@ -135,7 +135,7 @@
               <th class="text-left">Due Date</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody v-if="filteredTasks.length > 0">
             <tr v-for="(item, index) in filteredTasks" :key="item.uuid">
               <td>
                 <v-checkbox
@@ -149,13 +149,17 @@
               <td>{{ item.date }}</td>
             </tr>
           </tbody>
+          <tbody v-else>
+            <tr>
+              <td colspan="5">
+                You have completed all of your tasks or you didn't add a task
+                yet.
+              </td>
+            </tr>
+          </tbody>
         </template>
       </v-simple-table>
     </v-container>
-    <v-container class="text-center grey--text text--lighten-5 text-h4" v-else
-      >You have completed all of your tasks or you didn't add a task
-      yet.</v-container
-    >
   </div>
 </template>
 
