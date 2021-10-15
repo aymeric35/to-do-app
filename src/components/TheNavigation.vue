@@ -68,7 +68,12 @@
           </v-card>
         </v-dialog>
 
-        <v-list-item v-for="(list, i) in lists" :key="i" :to="'/lists/' + list" link>
+        <v-list-item
+          v-for="(list, i) in lists"
+          :key="i"
+          :to="'/lists/' + list"
+          link
+        >
           <v-list-item-icon>
             <v-icon color="primary">mdi-check-underline-circle</v-icon>
           </v-list-item-icon>
@@ -76,7 +81,9 @@
             list
           }}</v-list-item-title>
           <v-list-item-icon>
-            <v-icon @click="deleteEntry(list, i)" color="primary">mdi-trash-can-outline</v-icon>
+            <v-icon @click="deleteEntry(list, i)" color="primary"
+              >mdi-trash-can-outline</v-icon
+            >
           </v-list-item-icon>
         </v-list-item>
       </v-list-group>
@@ -105,6 +112,14 @@ export default {
       ],
     },
   }),
+  beforeRouteUpdate: (to, from, next) => {
+    const exists = store.lists.find((list) => list === to.params.list);
+    if (exists) {
+      next();
+    } else {
+      next({ name: "404" });
+    }
+  },
   methods: {
     closeDialog() {
       this.dialog = false;
@@ -115,7 +130,9 @@ export default {
     },
     deleteEntry(list, i) {
       this.lists.splice(i, 1);
-      store.tasks.splice(store.tasks.findIndex(task => task.name === list),1)
+      store.tasks.splice(store.tasks.findIndex(task => task.page === list), 1)
+      console.log(store.tasks);
+      // this.$router.push({ path: "/" });
     },
     validate() {
       if (this.$refs.form.validate()) {
