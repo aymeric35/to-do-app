@@ -220,6 +220,7 @@ export default {
     checkTaskCompletion(item, index) {
       if (item.completed === true) {
         this.tasks.splice(index, 1);
+        console.log(store.tasks);
       }
     },
   },
