@@ -130,7 +130,8 @@ export default {
     },
     deleteEntry(list, i) {
       this.lists.splice(i, 1);
-      store.tasks.splice(store.tasks.findIndex(task => task.page === list), 1)
+      const filtered = store.tasks.filter((task) => task.page !== list);
+      store.tasks = filtered;
       console.log(store.tasks);
       // this.$router.push({ path: "/" });
     },
