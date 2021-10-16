@@ -1,6 +1,7 @@
+import Vue from 'vue';
 import { v4 as uuidv4 } from "uuid";
 
-export default {
+export default Vue.observable({
     tasks: [
         {
             uuid: uuidv4(),
@@ -48,4 +49,4 @@ export default {
         },
     ],
     lists: ['test1', 'test2']
-}
+})
