@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Inbox from '../views/Inbox.vue'
-import store from '@/store.js'
 
 Vue.use(VueRouter)
 
@@ -17,7 +16,7 @@ const routes = [
     props: true,
     component: () => import('../views/lists/List.vue'),
     beforeEnter: (to, from, next) => {
-      const exists = store.lists.find(
+      const exists = router.app.$store.state.lists.find(
         list => list === to.params.list
       );
       if (exists) {

@@ -153,7 +153,7 @@
 
 <script>
 import { v4 as uuidv4 } from "uuid";
-import store from "@/store.js";
+import { mapState } from 'vuex';
 
 export default {
   data() {
@@ -186,8 +186,10 @@ export default {
             "Description must be less than 200 characters",
         ],
       },
-      tasks: store.tasks,
     };
+  },
+  computed: {
+    ...mapState(['tasks'])
   },
   methods: {
     closeDialog() {
@@ -220,7 +222,7 @@ export default {
     checkTaskCompletion(item, index) {
       if (item.completed === true) {
         this.tasks.splice(index, 1);
-        console.log(store.tasks);
+        console.log(this.tasks);
       }
     },
   },

@@ -93,14 +93,13 @@
 
 <script>
 import TheNavigationPage from "../components/TheNavigationPage";
-import store from "@/store.js";
+import { mapState } from 'vuex';
 
 export default {
   components: {
     TheNavigationPage,
   },
   data: () => ({
-    lists: store.lists,
     name: "",
     dialog: false,
     valid: true,
@@ -113,12 +112,15 @@ export default {
     },
   }),
   beforeRouteUpdate: (to, from, next) => {
-    const exists = store.lists.find((list) => list === to.params.list);
+    const exists = this.lists.find((list) => list === to.params.list);
     if (exists) {
       next();
     } else {
       next({ name: "404" });
     }
+  },
+  computed: {
+    ...mapState(['lists', 'tasks'])
   },
   methods: {
     closeDialog() {
@@ -130,9 +132,9 @@ export default {
     },
     deleteEntry(list, i) {
       this.lists.splice(i, 1);
-      const filtered = store.tasks.filter((task) => task.page !== list);
-      store.tasks = filtered;
-      console.log(store.tasks);
+      const filtered = this.tasks.filter((task) => task.page !== list);
+      this.tasks = filtered;
+      console.log(this.tasks);
       // this.$router.push({ path: "/" });
     },
     validate() {

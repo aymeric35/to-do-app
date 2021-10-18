@@ -165,7 +165,7 @@
 
 <script>
 import { v4 as uuidv4 } from "uuid";
-import store from "@/store.js";
+import { mapState } from "vuex";
 
 export default {
   data() {
@@ -198,11 +198,10 @@ export default {
             "Description must be less than 200 characters",
         ],
       },
-      tasks: store.tasks,
     };
   },
-  beforeRouteUpdate: (to, from, next) => {
-    const exists = store.lists.find((list) => list === to.params.list);
+  beforeRouteUpdate: function(to, from, next) {
+    const exists = this.lists.find((list) => list === to.params.list );
     if (exists) {
       next();
     } else {
@@ -210,6 +209,7 @@ export default {
     }
   },
   computed: {
+    ...mapState(["tasks", "lists"]),
     filteredTasks() {
       const currentPage = this.$route.params.list;
       return this.tasks.filter((task) => task.page === currentPage);
