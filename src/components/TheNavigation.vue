@@ -93,7 +93,7 @@
 
 <script>
 import TheNavigationPage from "../components/TheNavigationPage";
-import { mapState } from 'vuex';
+import { mapState } from "vuex";
 
 export default {
   components: {
@@ -120,7 +120,7 @@ export default {
     }
   },
   computed: {
-    ...mapState(['lists', 'tasks'])
+    ...mapState(["lists", "tasks"]),
   },
   methods: {
     closeDialog() {
@@ -131,11 +131,10 @@ export default {
       this.lists.push(entry);
     },
     deleteEntry(list, i) {
-      this.lists.splice(i, 1);
-      const filtered = this.tasks.filter((task) => task.page !== list);
-      this.tasks = filtered;
-      console.log(this.tasks);
-      // this.$router.push({ path: "/" });
+      this.$store.commit("DELETE_LIST", { list, i }, this);
+      if (list === this.$route.params.list) {
+        this.$router.push({ path: "/" });
+      }
     },
     validate() {
       if (this.$refs.form.validate()) {
