@@ -55,6 +55,12 @@ export default new Vuex.Store({
     lists: ['test1', 'test2']
   },
   mutations: {
+    DELETE_LIST(state, { list, i }) {
+      state.lists.splice(i, 1);
+      const filtered = state.tasks.filter((task) => task.page !== list);
+      state.tasks = filtered;
+      console.log(state.tasks);
+    }
   },
   actions: {
   },
