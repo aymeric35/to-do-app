@@ -111,14 +111,6 @@ export default {
       ],
     },
   }),
-  beforeRouteUpdate: (to, from, next) => {
-    const exists = this.lists.find((list) => list === to.params.list);
-    if (exists) {
-      next();
-    } else {
-      next({ name: "404" });
-    }
-  },
   computed: {
     ...mapState(["lists", "tasks"]),
   },
