@@ -136,11 +136,11 @@
             </tr>
           </thead>
           <tbody v-if="filteredTasks.length > 0">
-            <tr v-for="(item, index) in filteredTasks" :key="item.uuid">
+            <tr v-for="item in filteredTasks" :key="item.uuid">
               <td>
                 <v-checkbox
                   v-model="item.completed"
-                  @click="checkTaskCompletion(item, index)"
+                  @click="checkTaskCompletion(item, item.uuid)"
                 ></v-checkbox>
               </td>
               <td>{{ item.name }}</td>
@@ -201,6 +201,7 @@ export default {
     };
   },
   beforeRouteUpdate: function(to, from, next) {
+    if (to.name !== 'List') return next()
     const exists = this.lists.find((list) => list === to.params.list );
     if (exists) {
       next();
@@ -244,9 +245,10 @@ export default {
       this.name = "";
       this.description = "";
     },
-    checkTaskCompletion(item, index) {
+    checkTaskCompletion(item, id) {
       if (item.completed === true) {
-        this.tasks.splice(index, 1);
+        const index = this.tasks.findIndex(task => task.uuid === id)
+        this.tasks.splice(index, 1)
       }
     },
   },
