@@ -127,6 +127,9 @@
             <tr v-for="(item, index) in tasks" :key="item.uuid">
               <td>
                 <v-checkbox
+                  off-icon="mdi-checkbox-blank-circle-outline"
+                  on-icon="mdi-checkbox-marked-circle-outline"
+                  class="tasks__checkbox"
                   v-model="item.completed"
                   @click="checkTaskCompletion(item, index)"
                 ></v-checkbox>
@@ -148,12 +151,34 @@
         </template>
       </v-simple-table>
     </v-container>
+    <template>
+      <v-container>
+        <v-list dense>
+          <v-list-item-group>
+            <v-list-item  v-for="(item, index) in tasks" :key="item.uuid">
+              <v-list-item-action>
+                <v-checkbox
+                  off-icon="mdi-checkbox-blank-circle-outline"
+                  on-icon="mdi-checkbox-marked-circle-outline"
+                  class="tasks__checkbox"
+                  v-model="item.completed"
+                  @click="checkTaskCompletion(item, index)"
+                ></v-checkbox>
+              </v-list-item-action>
+              <v-list-item-content>
+                <v-list-item-title v-text="item.name"></v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
+          </v-list-item-group>
+        </v-list>
+      </v-container>
+    </template>
   </div>
 </template>
 
 <script>
 import { v4 as uuidv4 } from "uuid";
-import { mapState } from 'vuex';
+import { mapState } from "vuex";
 
 export default {
   data() {
@@ -189,7 +214,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(['tasks'])
+    ...mapState(["tasks"]),
   },
   methods: {
     closeDialog() {
@@ -228,3 +253,9 @@ export default {
   },
 };
 </script>
+
+<style lang="scss">
+.tasks__checkbox {
+  width: fit-content;
+}
+</style>
