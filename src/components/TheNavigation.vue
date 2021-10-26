@@ -125,7 +125,7 @@ export default {
     deleteEntry(list, i) {
       this.$store.commit("DELETE_LIST", { list, i }, this);
       if (list === this.$route.params.list) {
-        this.$router.push({ path: "/" });
+        this.$router.push({ name: 'Inbox' });
       }
     },
     validate() {
