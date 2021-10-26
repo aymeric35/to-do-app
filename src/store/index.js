@@ -11,8 +11,8 @@ export default new Vuex.Store({
         uuid: uuidv4(),
         page: 'test1',
         completed: false,
-        name: 'Bonjour',
-        description: 'test1',
+        name: 'Task 0',
+        description: 'placeholder',
         priority: 1,
         date: new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
           .toISOString()
@@ -22,8 +22,8 @@ export default new Vuex.Store({
         uuid: uuidv4(),
         page: 'test1',
         completed: false,
-        name: 'Hello',
-        description: 'test1',
+        name: 'Task 1',
+        description: 'placeholder',
         priority: 1,
         date: new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
           .toISOString()
@@ -33,8 +33,8 @@ export default new Vuex.Store({
         uuid: uuidv4(),
         page: 'test2',
         completed: false,
-        name: 'Au revoir',
-        description: 'test2',
+        name: 'Task 2',
+        description: 'placeholder',
         priority: 1,
         date: new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
           .toISOString()
@@ -44,8 +44,8 @@ export default new Vuex.Store({
         uuid: uuidv4(),
         page: 'test2',
         completed: false,
-        name: 'Goodbye',
-        description: 'test2',
+        name: 'Task 3',
+        description: 'placeholder',
         priority: 1,
         date: new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
           .toISOString()
@@ -59,7 +59,6 @@ export default new Vuex.Store({
       state.lists.splice(i, 1);
       const filtered = state.tasks.filter((task) => task.page !== list);
       state.tasks = filtered;
-      console.log(state.tasks);
     }
   },
   actions: {
