@@ -81,7 +81,7 @@
             list
           }}</v-list-item-title>
           <v-list-item-icon>
-            <v-icon @click="deleteEntry(list, i)" color="primary"
+            <v-icon @click.prevent="deleteEntry(list, i)" color="primary"
               >mdi-trash-can-outline</v-icon
             >
           </v-list-item-icon>
