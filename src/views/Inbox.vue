@@ -124,14 +124,14 @@
             </tr>
           </thead>
           <tbody v-if="tasks.length > 0">
-            <tr v-for="(item, index) in tasks" :key="item.uuid">
+            <tr v-for="item in tasks" :key="item.uuid">
               <td>
                 <v-checkbox
                   off-icon="mdi-checkbox-blank-circle-outline"
                   on-icon="mdi-checkbox-marked-circle-outline"
                   class="tasks__checkbox"
                   v-model="item.completed"
-                  @click="checkTaskCompletion(item, index)"
+                  @click="checkTaskCompletion(item, item.uuid)"
                 ></v-checkbox>
               </td>
               <td>{{ item.name }}</td>
@@ -155,14 +155,14 @@
       <v-container>
         <v-list dense>
           <v-list-item-group>
-            <v-list-item  v-for="(item, index) in tasks" :key="item.uuid">
+            <v-list-item  v-for="item in tasks" :key="item.uuid">
               <v-list-item-action>
                 <v-checkbox
                   off-icon="mdi-checkbox-blank-circle-outline"
                   on-icon="mdi-checkbox-marked-circle-outline"
                   class="tasks__checkbox"
                   v-model="item.completed"
-                  @click="checkTaskCompletion(item, index)"
+                  @click="checkTaskCompletion(item, item.uuid)"
                 ></v-checkbox>
               </v-list-item-action>
               <v-list-item-content>
@@ -235,7 +235,7 @@ export default {
         priority: this.priority,
         date: this.date,
       };
-      this.tasks.unshift(entry);
+      this.$store.commit("ADD_NEW_TASK", entry);
     },
     reset() {
       this.closeDialog();
@@ -244,11 +244,8 @@ export default {
       this.name = "";
       this.description = "";
     },
-    checkTaskCompletion(item, index) {
-      if (item.completed === true) {
-        this.tasks.splice(index, 1);
-        console.log(this.tasks);
-      }
+    checkTaskCompletion(item, uuid) {
+      this.$store.commit("CHECK_TASK_COMPLETION", { item, uuid });
     },
   },
 };

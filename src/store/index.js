@@ -55,10 +55,19 @@ export default new Vuex.Store({
     lists: ['test1', 'test2']
   },
   mutations: {
+    ADD_NEW_TASK(state, entry) {
+      state.tasks.unshift(entry);
+    },
     DELETE_LIST(state, { list, i }) {
       state.lists.splice(i, 1);
       const filtered = state.tasks.filter((task) => task.page !== list);
       state.tasks = filtered;
+    },
+    CHECK_TASK_COMPLETION(state, { item, uuid }) {
+      if (item.completed === true) {
+        const index = state.tasks.findIndex(task => task.uuid === uuid)
+        state.tasks.splice(index, 1)
+      }
     }
   },
   actions: {

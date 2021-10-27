@@ -123,7 +123,7 @@ export default {
       this.lists.push(entry);
     },
     deleteEntry(list, i) {
-      this.$store.commit("DELETE_LIST", { list, i }, this);
+      this.$store.commit("DELETE_LIST", { list, i });
       if (list === this.$route.params.list) {
         this.$router.push({ name: 'Inbox' });
       }

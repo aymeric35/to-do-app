@@ -200,9 +200,9 @@ export default {
       },
     };
   },
-  beforeRouteUpdate: function(to, from, next) {
-    if (to.name !== 'List') return next()
-    const exists = this.lists.find((list) => list === to.params.list );
+  beforeRouteUpdate: function (to, from, next) {
+    if (to.name !== "List") return next();
+    const exists = this.lists.find((list) => list === to.params.list);
     if (exists) {
       next();
     } else {
@@ -236,7 +236,7 @@ export default {
         priority: this.priority,
         date: this.date,
       };
-      this.tasks.unshift(entry);
+      this.$store.commit("ADD_NEW_TASK", entry);
     },
     reset() {
       this.closeDialog();
@@ -245,11 +245,8 @@ export default {
       this.name = "";
       this.description = "";
     },
-    checkTaskCompletion(item, id) {
-      if (item.completed === true) {
-        const index = this.tasks.findIndex(task => task.uuid === id)
-        this.tasks.splice(index, 1)
-      }
+    checkTaskCompletion(item, uuid) {
+      this.$store.commit("CHECK_TASK_COMPLETION", { item, uuid });
     },
   },
 };
