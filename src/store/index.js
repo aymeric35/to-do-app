@@ -24,7 +24,7 @@ export default new Vuex.Store({
         completed: false,
         name: 'Task 1',
         description: 'placeholder',
-        priority: 1,
+        priority: 2,
         date: new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
           .toISOString()
           .substr(0, 10),
@@ -35,7 +35,7 @@ export default new Vuex.Store({
         completed: false,
         name: 'Task 2',
         description: 'placeholder',
-        priority: 1,
+        priority: 3,
         date: new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
           .toISOString()
           .substr(0, 10),
@@ -46,7 +46,18 @@ export default new Vuex.Store({
         completed: false,
         name: 'Task 3',
         description: 'placeholder',
-        priority: 1,
+        priority: 4,
+        date: new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
+          .toISOString()
+          .substr(0, 10),
+      },
+      {
+        uuid: uuidv4(),
+        page: 'test2',
+        completed: false,
+        name: 'Task 4',
+        description: 'placeholder',
+        priority: 5,
         date: new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
           .toISOString()
           .substr(0, 10),

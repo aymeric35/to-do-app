@@ -188,8 +188,8 @@ export default {
         priority: [
           (v) => !!v || "Priority is required",
           (v) =>
-            (v > 0 && v < 10000) ||
-            "Priority must be a number between 1 and 9999",
+            (v > 0 && v < 6) ||
+            "Priority must be a number between 1 and 5",
         ],
         description: [
           (v) => !!v || "Description is required",

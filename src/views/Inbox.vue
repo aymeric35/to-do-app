@@ -155,12 +155,21 @@
       <v-container>
         <v-list dense>
           <v-list-item-group>
-            <v-list-item  v-for="item in tasks" :key="item.uuid">
+            <v-list-item
+              v-for="item in tasks"
+              :key="item.uuid"
+              :class="{
+                'priority-1' : (item.priority === 1),
+                'priority-2' : (item.priority === 2),
+                'priority-3' : (item.priority === 3),
+                'priority-4' : (item.priority === 4),
+                'priority-5' : (item.priority === 5),
+                }"
+            >
               <v-list-item-action>
                 <v-checkbox
                   off-icon="mdi-checkbox-blank-circle-outline"
                   on-icon="mdi-checkbox-marked-circle-outline"
-                  class="tasks__checkbox"
                   v-model="item.completed"
                   @click="checkTaskCompletion(item, item.uuid)"
                 ></v-checkbox>
@@ -201,8 +210,7 @@ export default {
         priority: [
           (v) => !!v || "Priority is required",
           (v) =>
-            (v > 0 && v < 10000) ||
-            "Priority must be a number between 1 and 9999",
+            (v > 0 && v < 6) || "Priority must be a number between 1 and 5",
         ],
         description: [
           (v) => !!v || "Description is required",
@@ -252,7 +260,23 @@ export default {
 </script>
 
 <style lang="scss">
-.tasks__checkbox {
-  width: fit-content;
+div.priority-1 i.mdi-checkbox-blank-circle-outline {
+  color: #DC2626;
+}
+
+div.priority-2 i.mdi-checkbox-blank-circle-outline {
+  color: #F9A8D4;
+}
+
+div.priority-3 i.mdi-checkbox-blank-circle-outline {
+  color: #6366F1;
+}
+
+div.priority-4 i.mdi-checkbox-blank-circle-outline {
+  color: #10B981;
+}
+
+div.priority-5 i.mdi-checkbox-blank-circle-outline {
+  color: #1C1917;
 }
 </style>
