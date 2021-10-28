@@ -119,8 +119,8 @@ export default {
       this.dialog = false;
     },
     addEntry() {
-      const entry = this.name;
-      this.lists.push(entry);
+      const list = this.name;
+      this.$store.commit('ADD_NEW_LIST', list)
     },
     deleteEntry(list, i) {
       this.$store.commit("DELETE_LIST", { list, i });

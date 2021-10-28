@@ -10,18 +10,29 @@
 
     <v-main class="grey darken-4">
       <keep-alive>
-      <router-view :key="$route.path" />
+        <router-view :key="$route.path" />
       </keep-alive>
     </v-main>
   </v-app>
 </template>
 
 <script>
-import TheNavigation from './components/TheNavigation'
+import TheNavigation from "./components/TheNavigation";
 export default {
   components: {
-    TheNavigation
-  }
+    TheNavigation,
+  },
+  mounted() {
+    if (localStorage.getItem("lists") || localStorage.getItem("tasks")) {
+      try {
+        this.$store.commit("RETRIEVE_LISTS");
+        this.$store.commit("RETRIEVE_TASKS");
+      } catch (e) {
+        localStorage.removeItem("lists");
+        localStorage.removeItem("tasks");
+      }
+    }
+  },
 };
 </script>
 
