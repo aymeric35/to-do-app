@@ -112,7 +112,7 @@
       </v-row>
     </v-container>
     <v-container>
-      <v-card v-if="tasks.length > 0" style="width: 100%">
+      <v-card v-if="tasks.length > 0">
         <template v-for="(task, i) in tasks">
           <v-divider v-if="i !== 0" :key="`${i}-divider`"></v-divider>
 
@@ -141,13 +141,26 @@
             <v-spacer></v-spacer>
             <v-menu transition="scroll-y-transition">
               <template v-slot:activator="{ on, attrs }">
-                <v-icon class="mr-2" :class="'priority-' + task.priority" v-bind="attrs" v-on="on">
+                <v-icon
+                  class="mr-2"
+                  :class="'priority-' + task.priority"
+                  v-bind="attrs"
+                  v-on="on"
+                >
                   mdi-flag
                 </v-icon>
               </template>
               <v-list>
-                <v-list-item v-for="(priorityLevel, i) in priorityLevels" :key="priorityLevel" link>
-                  <v-list-item-title v-text="priorityLevel" @click="updatePriority(task, i)"></v-list-item-title>
+                <v-list-item
+                  v-for="(priorityLevel, i) in priorityLevels"
+                  :key="priorityLevel"
+                  @click="updatePriority(task, i)"
+                  link
+                >
+                  <v-list-item-icon>
+                    <v-icon :class="'priority-' + i">mdi-flag</v-icon>
+                  </v-list-item-icon>
+                  <v-list-item-title v-text="priorityLevel"></v-list-item-title>
                 </v-list-item>
               </v-list>
             </v-menu>
@@ -195,7 +208,7 @@ export default {
             "Description must be less than 200 characters",
         ],
       },
-      priorityLevels: ['Critical', 'High', 'Medium', 'Low']
+      priorityLevels: ["Critical", "High", "Medium", "Low"],
     };
   },
   computed: {
@@ -230,8 +243,7 @@ export default {
       this.description = "";
     },
     updatePriority(currentTask, i) {
-      console.log(i);
-      this.$store.commit("UPDATE_PRIORITY", {currentTask, i})
+      this.$store.commit("UPDATE_PRIORITY", { currentTask, i });
     },
     deleteTask(uuid) {
       this.$store.commit("DELETE_TASK", uuid);
@@ -241,10 +253,6 @@ export default {
 </script>
 
 <style lang="scss">
-.v-card {
-  width: 50%;
-}
-
 .v-card .v-input--selection-controls__input i {
   color: var(--v-primary-base);
 }
