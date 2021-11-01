@@ -80,9 +80,8 @@ export default new Vuex.Store({
       state.tasks = filtered;
       this.commit('SAVE_STORE')
     },
-    UPDATE_PRIORITY(state, { currentTask, i }) {
-      const task = state.tasks.find(task => task.uuid === currentTask.uuid)
-      task.priority = i
+    UPDATE_PRIORITY(_, { currentTask, i }) {
+      currentTask.priority = i
       this.commit('SAVE_STORE')
     },
     DELETE_TASK(state, uuid) {
