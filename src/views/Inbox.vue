@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-container>
+    <!-- <v-container>
       <v-row class="d-flex justify-end py-6 pr-2">
         <v-dialog v-model="dialog" max-width="600px" persistent>
           <template v-slot:activator="{ on, attrs }">
@@ -110,7 +110,7 @@
           </v-card>
         </v-dialog>
       </v-row>
-    </v-container>
+    </v-container> -->
     <v-container>
       <v-card v-if="tasks.length > 0">
         <template v-for="(task, i) in tasks">
@@ -164,11 +164,133 @@
                 </v-list-item>
               </v-list>
             </v-menu>
-            <v-icon color="error" @click="deleteTask(task.uuid)">
-              mdi-trash-can-outline
+            <v-icon class="red--text text--lighten-3" @click="deleteTask(task.uuid)">
+              mdi-delete
             </v-icon>
           </v-list-item>
         </template>
+        <v-divider></v-divider>
+        <v-list-item class="justify-center">
+          <v-list-item-action>
+            <v-dialog v-model="dialog" max-width="600px" persistent>
+              <template v-slot:activator="{ on, attrs }">
+                <v-btn
+                  elevation="2"
+                  color="primary"
+                  small
+                  outlined
+                  fab
+                  v-bind="attrs"
+                  v-on="on"
+                >
+                  <v-icon>mdi-plus</v-icon>
+                </v-btn>
+              </template>
+
+              <v-card>
+                <v-card-title>
+                  <span class="text-h5">Task</span>
+                </v-card-title>
+                <v-card-text>
+                  <v-container>
+                    <v-form ref="form" v-model="valid" lazy-validation>
+                      <v-row>
+                        <v-col cols="12" sm="6">
+                          <v-text-field
+                            v-model="name"
+                            label="Task name*"
+                            :counter="30"
+                            :rules="rule.name"
+                            required
+                          ></v-text-field>
+                        </v-col>
+                        <v-col cols="12" sm="6">
+                          <v-text-field
+                            v-model="priority"
+                            label="Task priority*"
+                            type="number"
+                            :rules="rule.priority"
+                            min="0"
+                            max="9999"
+                            required
+                          ></v-text-field>
+                        </v-col>
+                        <v-col cols="12" sm="8">
+                          <v-textarea
+                            v-model="description"
+                            name="input-7-1"
+                            rows="1"
+                            label="Task description*"
+                            :counter="200"
+                            :rules="rule.description"
+                            auto-grow
+                          ></v-textarea>
+                        </v-col>
+                        <v-col cols="12" sm="4">
+                          <v-menu
+                            ref="menu"
+                            v-model="menu"
+                            :close-on-content-click="false"
+                            :return-value.sync="date"
+                            transition="scale-transition"
+                            offset-y
+                            min-width="auto"
+                          >
+                            <template v-slot:activator="{ on, attrs }">
+                              <v-text-field
+                                v-model="date"
+                                label="Due date"
+                                prepend-icon="mdi-calendar"
+                                readonly
+                                v-bind="attrs"
+                                v-on="on"
+                              ></v-text-field>
+                            </template>
+                            <v-date-picker
+                              v-model="date"
+                              color="primary"
+                              :min="new Date(Date.now()).toISOString()"
+                              no-title
+                              scrollable
+                            >
+                              <v-spacer></v-spacer>
+                              <v-btn text color="primary" @click="menu = false">
+                                Cancel
+                              </v-btn>
+                              <v-btn
+                                text
+                                color="primary"
+                                @click="$refs.menu.save(date)"
+                              >
+                                OK
+                              </v-btn>
+                            </v-date-picker>
+                          </v-menu>
+                        </v-col>
+                      </v-row>
+                    </v-form>
+                  </v-container>
+                  <small>*indicates required field</small>
+                </v-card-text>
+                <v-card-actions>
+                  <v-spacer></v-spacer>
+                  <v-btn color="blue darken-1" text @click="reset()">
+                    Close
+                  </v-btn>
+                  <v-btn
+                    :disabled="!valid"
+                    color="blue darken-1"
+                    type="submit"
+                    text
+                    @click="validate()"
+                  >
+                    Save
+                  </v-btn>
+                </v-card-actions>
+              </v-card>
+            </v-dialog>
+          </v-list-item-action>
+        </v-list-item>
       </v-card>
     </v-container>
   </div>
