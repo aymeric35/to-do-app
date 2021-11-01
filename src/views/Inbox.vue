@@ -112,76 +112,52 @@
       </v-row>
     </v-container>
     <v-container>
-      <v-simple-table>
-        <template v-slot:default>
-          <thead>
-            <tr>
-              <th class="text-left">Completed</th>
-              <th class="text-left">Task</th>
-              <th class="text-left">Description</th>
-              <th class="text-left">Priority</th>
-              <th class="text-left">Due Date</th>
-            </tr>
-          </thead>
-          <tbody v-if="tasks.length > 0">
-            <tr v-for="item in tasks" :key="item.uuid">
-              <td>
-                <v-checkbox
-                  off-icon="mdi-checkbox-blank-circle-outline"
-                  on-icon="mdi-checkbox-marked-circle-outline"
-                  class="tasks__checkbox"
-                  v-model="item.completed"
-                  @click="checkTaskCompletion(item, item.uuid)"
-                ></v-checkbox>
-              </td>
-              <td>{{ item.name }}</td>
-              <td>{{ item.description }}</td>
-              <td>{{ item.priority }}</td>
-              <td>{{ item.date }}</td>
-            </tr>
-          </tbody>
-          <tbody v-else>
-            <tr>
-              <td colspan="5" class="mx-auto text-center">
-                You have completed all of your tasks or you didn't add a task
-                yet.
-              </td>
-            </tr>
-          </tbody>
+      <v-card v-if="tasks.length > 0" style="width: 100%">
+        <template v-for="(task, i) in tasks">
+          <v-divider v-if="i !== 0" :key="`${i}-divider`"></v-divider>
+
+          <v-list-item :key="`${i}-${task.name}`">
+            <v-list-item-action>
+              <v-checkbox
+                off-icon="mdi-checkbox-blank-circle-outline"
+                on-icon="mdi-checkbox-marked-circle-outline"
+                v-model="task.completed"
+              >
+                <template v-slot:label>
+                  <div
+                    class="ml-4"
+                    v-text="task.name"
+                    :class="
+                      (task.completed &&
+                        'grey--text' &&
+                        'text-decoration-line-through') ||
+                      'primary--text'
+                    "
+                  ></div>
+                </template>
+              </v-checkbox>
+            </v-list-item-action>
+
+            <v-spacer></v-spacer>
+            <v-menu transition="scroll-y-transition">
+              <template v-slot:activator="{ on, attrs }">
+                <v-icon class="mr-2" :class="'priority-' + task.priority" v-bind="attrs" v-on="on">
+                  mdi-flag
+                </v-icon>
+              </template>
+              <v-list>
+                <v-list-item v-for="(priorityLevel, i) in priorityLevels" :key="priorityLevel" link>
+                  <v-list-item-title v-text="priorityLevel" @click="updatePriority(task, i)"></v-list-item-title>
+                </v-list-item>
+              </v-list>
+            </v-menu>
+            <v-icon color="error" @click="deleteTask(task.uuid)">
+              mdi-trash-can-outline
+            </v-icon>
+          </v-list-item>
         </template>
-      </v-simple-table>
+      </v-card>
     </v-container>
-    <template>
-      <v-container>
-        <v-list dense>
-          <v-list-item-group>
-            <v-list-item
-              v-for="item in tasks"
-              :key="item.uuid"
-              :class="{
-                'priority-1' : (item.priority === 1),
-                'priority-2' : (item.priority === 2),
-                'priority-3' : (item.priority === 3),
-                'priority-4' : (item.priority === 4),
-                'priority-5' : (item.priority === 5),
-                }"
-            >
-              <v-list-item-action>
-                <v-checkbox
-                  off-icon="mdi-checkbox-blank-circle-outline"
-                  on-icon="mdi-checkbox-marked-circle-outline"
-                  v-model="item.completed"
-                  @click="checkTaskCompletion(item, item.uuid)"
-                ></v-checkbox>
-              </v-list-item-action>
-              <v-list-item-content>
-                <v-list-item-title v-text="item.name"></v-list-item-title>
-              </v-list-item-content>
-            </v-list-item>
-          </v-list-item-group>
-        </v-list>
-      </v-container>
-    </template>
   </div>
 </template>
 
@@ -210,7 +186,7 @@ export default {
         priority: [
           (v) => !!v || "Priority is required",
           (v) =>
-            (v > 0 && v < 6) || "Priority must be a number between 1 and 5",
+            (v > 0 && v < 5) || "Priority must be a number between 1 and 4",
         ],
         description: [
           (v) => !!v || "Description is required",
@@ -219,6 +195,7 @@ export default {
             "Description must be less than 200 characters",
         ],
       },
+      priorityLevels: ['Critical', 'High', 'Medium', 'Low']
     };
   },
   computed: {
@@ -252,31 +229,39 @@ export default {
       this.name = "";
       this.description = "";
     },
-    checkTaskCompletion(item, uuid) {
-      this.$store.commit("CHECK_TASK_COMPLETION", { item, uuid });
+    updatePriority(currentTask, i) {
+      console.log(i);
+      this.$store.commit("UPDATE_PRIORITY", {currentTask, i})
+    },
+    deleteTask(uuid) {
+      this.$store.commit("DELETE_TASK", uuid);
     },
   },
 };
 </script>
 
 <style lang="scss">
-div.priority-1 i.mdi-checkbox-blank-circle-outline {
-  color: #DC2626;
+.v-card {
+  width: 50%;
 }
 
-div.priority-2 i.mdi-checkbox-blank-circle-outline {
-  color: #F9A8D4;
+.v-card .v-input--selection-controls__input i {
+  color: var(--v-primary-base);
 }
 
-div.priority-3 i.mdi-checkbox-blank-circle-outline {
-  color: #6366F1;
+.v-icon.priority-0 {
+  color: #dc2626;
 }
 
-div.priority-4 i.mdi-checkbox-blank-circle-outline {
-  color: #10B981;
+.v-icon.priority-1 {
+  color: #f9a8d4;
 }
 
-div.priority-5 i.mdi-checkbox-blank-circle-outline {
-  color: #1C1917;
+.v-icon.priority-2 {
+  color: #6366f1;
+}
+
+.v-icon.priority-3 {
+  color: #10b981;
 }
 </style>
