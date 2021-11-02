@@ -139,6 +139,33 @@
             </v-list-item-action>
 
             <v-spacer></v-spacer>
+
+            <v-dialog v-model="taskModal" :retain-focus="false" width="500">
+              <template v-slot:activator="{ on, attrs }">
+                <v-icon class="mr-2" color="primary" v-bind="attrs" v-on="on">
+                  mdi-card-text
+                </v-icon>
+              </template>
+
+              <v-card>
+                <v-card-title class="text-h5 grey lighten-2">
+                  {{ task.name }}
+                </v-card-title>
+
+                <v-card-text>
+                  {{ task.description }}
+                </v-card-text>
+
+                <v-divider></v-divider>
+
+                <v-card-actions>
+                  <v-spacer></v-spacer>
+                  <v-btn color="primary" text @click="taskModal = false">
+                    Close
+                  </v-btn>
+                </v-card-actions>
+              </v-card>
+            </v-dialog>
             <v-menu transition="scroll-y-transition">
               <template v-slot:activator="{ on, attrs }">
                 <v-icon
@@ -152,19 +179,24 @@
               </template>
               <v-list>
                 <v-list-item
-                  v-for="(priorityLevel, i) in priorityLevels"
-                  :key="priorityLevel"
-                  @click="updatePriority(task, i)"
+                  v-for="priority in priorities"
+                  :key="priority.value"
+                  @click="updatePriority(task, priority.value)"
                   link
                 >
                   <v-list-item-icon>
-                    <v-icon :class="'priority-' + i">mdi-flag</v-icon>
+                    <v-icon :class="'priority-' + priority.value"
+                      >mdi-flag</v-icon
+                    >
                   </v-list-item-icon>
-                  <v-list-item-title v-text="priorityLevel"></v-list-item-title>
+                  <v-list-item-title v-text="priority.text"></v-list-item-title>
                 </v-list-item>
               </v-list>
             </v-menu>
-            <v-icon class="red--text text--lighten-3" @click="deleteTask(task.uuid)">
+            <v-icon
+              class="red--text text--lighten-3"
+              @click="deleteTask(task.uuid)"
+            >
               mdi-delete
             </v-icon>
           </v-list-item>
@@ -205,15 +237,14 @@
                           ></v-text-field>
                         </v-col>
                         <v-col cols="12" sm="6">
-                          <v-text-field
-                            v-model="priority"
-                            label="Task priority*"
-                            type="number"
+                          <v-select
+                            v-model="selectedPriority"
+                            :items="priorities"
                             :rules="rule.priority"
-                            min="0"
-                            max="9999"
+                            label="Task priority"
+                            return-object
                             required
-                          ></v-text-field>
+                          ></v-select>
                         </v-col>
                         <v-col cols="12" sm="8">
                           <v-textarea
@@ -310,19 +341,22 @@ export default {
       menu: false,
       valid: true,
       name: "",
-      priority: 1,
+      selectedPriority: { text: "Medium", value: 2 },
+      priorities: [
+        { text: "Critical", value: 0 },
+        { text: "High", value: 1 },
+        { text: "Medium", value: 2 },
+        { text: "Low", value: 3 },
+      ],
       description: "",
+      taskModal: false,
       rule: {
         name: [
           (v) => !!v || "Name is required",
           (v) =>
             (v && v.length <= 30) || "Name must be less than 30 characters",
         ],
-        priority: [
-          (v) => !!v || "Priority is required",
-          (v) =>
-            (v > 0 && v < 5) || "Priority must be a number between 1 and 4",
-        ],
+        selectedPriority: [(v) => !!v || "Priority is required"],
         description: [
           (v) => !!v || "Description is required",
           (v) =>
@@ -330,7 +364,6 @@ export default {
             "Description must be less than 200 characters",
         ],
       },
-      priorityLevels: ["Critical", "High", "Medium", "Low"],
     };
   },
   computed: {
@@ -352,20 +385,24 @@ export default {
         completed: false,
         name: this.name,
         description: this.description,
-        priority: this.priority,
+        priority: this.selectedPriority.value,
         date: this.date,
       };
+      console.log(this.selectedPriority);
+      console.log(this.selectedPriority.value);
+      console.log(entry);
       this.$store.commit("ADD_NEW_TASK", entry);
     },
     reset() {
       this.closeDialog();
       this.$refs.form.resetValidation();
-      this.priority = 1;
+      this.selectedPriority = { text: "Medium", value: 2 };
       this.name = "";
       this.description = "";
     },
-    updatePriority(currentTask, i) {
-      this.$store.commit("UPDATE_PRIORITY", { currentTask, i });
+    openTaskModal() {},
+    updatePriority(currentTask, priorityValue) {
+      this.$store.commit("UPDATE_PRIORITY", { currentTask, priorityValue });
     },
     deleteTask(uuid) {
       this.$store.commit("DELETE_TASK", uuid);
