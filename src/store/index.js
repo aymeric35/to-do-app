@@ -80,8 +80,8 @@ export default new Vuex.Store({
       state.tasks = filtered;
       this.commit('SAVE_STORE')
     },
-    UPDATE_PRIORITY(_, { currentTask, i }) {
-      currentTask.priority = i
+    UPDATE_PRIORITY(_, { currentTask, priorityValue }) {
+      currentTask.priority = priorityValue
       this.commit('SAVE_STORE')
     },
     DELETE_TASK(state, uuid) {
