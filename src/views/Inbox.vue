@@ -29,48 +29,19 @@
 
             <v-spacer></v-spacer>
 
-            <v-dialog v-model="taskModal.isOpen" :retain-focus="false" width="500">
-              <template v-slot:activator="{ on, attrs }">
-                <v-btn
-                  class="mr-2"
-                  color="primary"
-                  v-bind="attrs"
-                  v-on="on"
-                  icon
-                >
-                  <v-icon> mdi-card-text </v-icon>
-                </v-btn>
-              </template>
+            <template>
+              <v-btn
+                class="mr-2"
+                color="primary"
+                @click="
+                  openTaskModal(task.name, task.priority, task.description)
+                "
+                icon
+              >
+                <v-icon> mdi-card-text </v-icon>
+              </v-btn>
+            </template>
 
-              <v-card>
-                <v-card-title class="text-h5 primary">
-                  <div>{{ task.name }}</div>
-                  <v-spacer></v-spacer>
-                  <div>
-                    <v-icon
-                      class="mr-2"
-                      :class="'priority-' + task.priority"
-                      size="2rem"
-                    >
-                      mdi-flag
-                    </v-icon>
-                  </div>
-                </v-card-title>
-
-                <v-card-text v-if="task.description.length !== 0" class="py-3">
-                  {{ task.description }}
-                </v-card-text>
-
-                <v-divider></v-divider>
-
-                <v-card-actions>
-                  <v-spacer></v-spacer>
-                  <v-btn color="primary" text @click="taskModal.isOpen = false">
-                    Close
-                  </v-btn>
-                </v-card-actions>
-              </v-card>
-            </v-dialog>
             <v-menu transition="scroll-y-transition">
               <template v-slot:activator="{ on, attrs }">
                 <v-icon
@@ -231,6 +202,36 @@
             </v-dialog>
           </v-list-item-action>
         </v-list-item>
+        <v-dialog v-model="taskModal.isOpen" :retain-focus="false" width="500">
+          <v-card>
+            <v-card-title class="text-h5 black grey--text text--lighten-5">
+              <div>{{ taskModal.name }}</div>
+              <v-spacer></v-spacer>
+              <div>
+                <v-icon
+                  class="mr-2"
+                  :class="'priority-' + taskModal.priority"
+                  size="2rem"
+                >
+                  mdi-flag
+                </v-icon>
+              </div>
+            </v-card-title>
+
+            <v-card-text class="py-3">
+              {{ taskModal.description }}
+            </v-card-text>
+
+            <v-divider></v-divider>
+
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn color="primary" text @click="taskModal.isOpen = false">
+                Close
+              </v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
       </v-card>
     </v-container>
   </div>
@@ -249,6 +250,12 @@ export default {
       datePicker: {
         isOpen: false,
       },
+      taskModal: {
+        isOpen: false,
+        name: null,
+        priority: null,
+        description: null,
+      },
       date: new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
         .toISOString()
         .substr(0, 10),
@@ -262,9 +269,6 @@ export default {
         { text: "Low", value: 3 },
       ],
       description: "",
-      taskModal: {
-        isOpen: false,
-      },
       rule: {
         name: [
           (v) => !!v || "Name is required",
@@ -283,6 +287,12 @@ export default {
     ...mapState(["tasks"]),
   },
   methods: {
+    openTaskModal(name, priority, description) {
+      this.taskModal.isOpen = true;
+      this.taskModal.name = name;
+      this.taskModal.priority = priority;
+      this.taskModal.description = description;
+    },
     closeDialog() {
       this.addDialog.isOpen = false;
     },
