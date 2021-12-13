@@ -67,7 +67,7 @@ export default new Vuex.Store({
   },
   mutations: {
     ADD_NEW_TASK(state, entry) {
-      state.tasks.unshift(entry);
+      state.tasks.push(entry);
       this.commit('SAVE_STORE')
     },
     ADD_NEW_LIST(state, list) {
