@@ -29,7 +29,7 @@
 
             <v-spacer></v-spacer>
 
-            <v-dialog v-model="taskModal" :retain-focus="false" width="500">
+            <v-dialog v-model="taskModal.isOpen" :retain-focus="false" width="500">
               <template v-slot:activator="{ on, attrs }">
                 <v-btn
                   class="mr-2"
@@ -65,7 +65,7 @@
 
                 <v-card-actions>
                   <v-spacer></v-spacer>
-                  <v-btn color="primary" text @click="taskModal = false">
+                  <v-btn color="primary" text @click="taskModal.isOpen = false">
                     Close
                   </v-btn>
                 </v-card-actions>
@@ -109,7 +109,7 @@
         <v-divider></v-divider>
         <v-list-item class="justify-center">
           <v-list-item-action>
-            <v-dialog v-model="dialog" max-width="600px" persistent>
+            <v-dialog v-model="addDialog.isOpen" max-width="600px" persistent>
               <template v-slot:activator="{ on, attrs }">
                 <v-btn
                   elevation="2"
@@ -165,7 +165,7 @@
                         <v-col cols="12" sm="4">
                           <v-menu
                             ref="datePickerMenu"
-                            v-model="datePickerMenu"
+                            v-model="datePicker.isOpen"
                             :close-on-content-click="false"
                             :return-value.sync="date"
                             transition="scale-transition"
@@ -190,7 +190,11 @@
                               scrollable
                             >
                               <v-spacer></v-spacer>
-                              <v-btn text color="primary" @click="datePickerMenu = false">
+                              <v-btn
+                                text
+                                color="primary"
+                                @click="datePicker.isOpen = false"
+                              >
                                 Cancel
                               </v-btn>
                               <v-btn
@@ -239,11 +243,15 @@ import { mapState } from "vuex";
 export default {
   data() {
     return {
-      dialog: false,
+      addDialog: {
+        isOpen: false,
+      },
+      datePicker: {
+        isOpen: false,
+      },
       date: new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
         .toISOString()
         .substr(0, 10),
-      datePickerMenu: false,
       valid: true,
       name: "",
       selectedPriority: { text: "Medium", value: 2 },
@@ -254,7 +262,9 @@ export default {
         { text: "Low", value: 3 },
       ],
       description: "",
-      taskModal: false,
+      taskModal: {
+        isOpen: false,
+      },
       rule: {
         name: [
           (v) => !!v || "Name is required",
@@ -274,7 +284,7 @@ export default {
   },
   methods: {
     closeDialog() {
-      this.dialog = false;
+      this.addDialog.isOpen = false;
     },
     validate() {
       if (this.$refs.form.validate()) {
