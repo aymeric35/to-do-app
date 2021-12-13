@@ -16,7 +16,7 @@ export default new Vuex.Store({
         priority: 0,
         date: new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
           .toISOString()
-          .substr(0, 10),
+          .substring(0, 10),
       },
       {
         uuid: uuidv4(),
@@ -27,7 +27,7 @@ export default new Vuex.Store({
         priority: 1,
         date: new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
           .toISOString()
-          .substr(0, 10),
+          .substring(0, 10),
       },
       {
         uuid: uuidv4(),
@@ -38,7 +38,7 @@ export default new Vuex.Store({
         priority: 2,
         date: new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
           .toISOString()
-          .substr(0, 10),
+          .substring(0, 10),
       },
       {
         uuid: uuidv4(),
@@ -49,7 +49,7 @@ export default new Vuex.Store({
         priority: 3,
         date: new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
           .toISOString()
-          .substr(0, 10),
+          .substring(0, 10),
       },
       {
         uuid: uuidv4(),
@@ -60,7 +60,7 @@ export default new Vuex.Store({
         priority: 3,
         date: new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
           .toISOString()
-          .substr(0, 10),
+          .substring(0, 10),
       },
     ],
     lists: ['test1', 'test2']
